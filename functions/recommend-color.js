@@ -15,7 +15,6 @@ exports.handler = async (event) => {
   try {
     const { bgColor, textColor } = JSON.parse(event.body);
 
-    // [수정] AI 프롬프트를 한글 응답으로 변경
     const systemPrompt = `당신은 UI 색상 디자인 어시스턴트입니다. 사용자가 색상 조합을 테스트하고 있습니다.
     모든 분석, 주석, 이유는 반드시 **한국어**로 작성해야 합니다.
 

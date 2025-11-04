@@ -305,7 +305,7 @@ function initializeLabPage() {
 // [신규] (Tab 2) AI 초안 색상을 랩으로 로드
 function loadAiDraftToLab() {
     if (!appState.generatedResult) {
-        // AI 초안이 없으면 로드하지 않음
+        // AI 초안이 없으면 로드하지 않음 (예: 사용자가 2번 탭을 그냥 클릭)
         return; 
     }
 
@@ -355,9 +355,8 @@ function confirmAndGenerateReport() {
     reportData.colorSystem.neutral.lightGray = appState.labColors.bgColor;
     reportData.colorSystem.neutral.darkGray = appState.labColors.textColor;
     
-    // (선택사항) 수정된 색상 기반으로 보조색상, 접근성 리포트 등도 재생성 요청할 수 있으나,
-    // 이 기획에서는 사용자가 검증한 주조/배경/텍스트 색상만 반영하는 것으로 함.
-    // (단, AI가 생성한 접근성 리포트는 부정확해질 수 있음)
+    // (참고: AI가 생성한 light/dark/secondary 등은 초안 값을 그대로 사용합니다.)
+    // (AI가 초안에 생성한 '접근성 분석'은 수정된 색상과 다를 수 있음을 명시합니다.)
 
     // 3. (Tab 3)로 이동
     navigateToTab('report-page');
@@ -457,7 +456,6 @@ function updateCvdSimulation(type, contentEl, buttonEl) {
     buttonEl.style.backgroundColor = simPrimary;
     
     const simBtnTextColor = getContrastRatio(simPrimary, '#FFFFFF') > 3 ? '#FFFFFF' : '#000000';
-    // (참고) 버튼 텍스트 색상은 시뮬레이션하지 않음 (가독성을 위한 일반 시야 기준)
     buttonEl.style.color = simBtnTextColor; 
 }
 
@@ -540,17 +538,15 @@ function displayReportData(data) {
     placeholder.classList.add('hidden');
     sections.forEach(s => s.classList.remove('hidden'));
 
-    // 1. 디자인 근거
-    const rationaleContainer = document.getElementById('design-rationale');
-    if (data.designRationale) {
-        rationaleContainer.innerHTML = `
-            <p><strong>종합 요약:</strong> ${data.designRationale.summary || '-'}</p>
-            <p><strong>색상 선택 이유:</strong> ${data.designRationale.colorChoice || '-'}</p>
-            <p><strong>타이포그래피 선택 이유:</strong> ${data.designRationale.typographyChoice || '-'}</p>
-        `;
+    // [신규] 리포트 부제목 동적 생성
+    const subtitleEl = document.getElementById('report-subtitle');
+    if (appState.service) {
+        subtitleEl.textContent = `'${appState.service}'을(를) 위한 최종 디자인 시스템 가이드입니다.`;
+    } else {
+        subtitleEl.textContent = '최종 검증된 디자인 시스템 가이드입니다.';
     }
 
-    // 2. 폰트 페어링
+    // 1. 폰트 페어링 (순서 변경)
     const fontPairingContainer = document.getElementById('font-pairing-container');
     const fontPairingReasoning = document.getElementById('font-pairing-reasoning');
     if (data.fontPairing) {
@@ -572,12 +568,19 @@ function displayReportData(data) {
         fontPairingReasoning.innerHTML = `<p><strong>AI 추천 이유:</strong> ${reasoning}</p>`;
     }
 
-    // 3. [중요] 최종 확정된 색상 시스템
+    // 2. 디자인 근거 (순서 변경)
+    const rationaleContainer = document.getElementById('design-rationale');
+    if (data.designRationale) {
+        rationaleContainer.innerHTML = `
+            <p><strong>종합 요약:</strong> ${data.designRationale.summary || '-'}</p>
+            <p><strong>색상 선택 이유:</strong> ${data.designRationale.colorChoice || '-'}</p>
+            <p><strong>타이포그래피 선택 이유:</strong> ${data.designRationale.typographyChoice || '-'}</p>
+        `;
+    }
+
+    // 3. 최종 확정된 색상 시스템
     const paletteGrid = document.getElementById('palette-grid');
     paletteGrid.innerHTML = '';
-    // 'primary'와 'neutral'의 일부는 labColors에서 가져옴
-    // (주의: 이 예제에서는 main, lightGray, darkGray만 덮어썼지만, 
-    //  실제로는 light, dark 등도 AI가 재생성하게 하는 것이 더 좋습니다)
     const finalColors = data.colorSystem;
     
     for (const [category, colors] of Object.entries(finalColors)) {
@@ -613,7 +616,17 @@ function displayReportData(data) {
         `;
     }
     
-    // 5. 플랫폼 가이드라인
+    // 5. 기본 타이포그래피 (순서 변경)
+    const typoRules = document.getElementById('typography-rules');
+    typoRules.innerHTML = `
+        <div class="typo-demo" style="font-family: ${data.typography.fontFamily};">
+            <h1 style="font-size: ${data.typography.headlineSize}; line-height: ${data.typography.lineHeight};">기본 헤드라인: ${data.typography.headlineSize}</h1>
+            <p style="font-size: ${data.typography.bodySize}; line-height: ${data.typography.lineHeight};">기본 본문: ${data.typography.bodySize}. (줄간격: ${data.typography.lineHeight})</p>
+        </div>
+        <p class="description" style="margin-top: 15px;">* 이 규칙은 플랫폼 표준이며, 위의 AI 추천 폰트 페어링을 적용하여 사용할 수 있습니다.</p>
+    `;
+    
+    // 6. 플랫폼 가이드라인 (순서 변경)
     const guidelineReportEl = document.getElementById('guideline-content-report');
     const platformKey = appState.platform.toLowerCase(); // (Tab 1)에서 설정한 값
     const guide = knowledgeBase.guidelines[platformKey];
@@ -632,18 +645,10 @@ function displayReportData(data) {
         guidelineReportEl.innerHTML = '<p>플랫폼 가이드라인 정보를 불러오지 못했습니다.</p>';
     }
 
-    // 6. 기본 타이포그래피
-    const typoRules = document.getElementById('typography-rules');
-    typoRules.innerHTML = `
-        <div class="typo-demo" style="font-family: ${data.typography.fontFamily};">
-            <h1 style="font-size: ${data.typography.headlineSize}; line-height: ${data.typography.lineHeight};">기본 헤드라인: ${data.typography.headlineSize}</h1>
-            <p style="font-size: ${data.typography.bodySize}; line-height: ${data.typography.lineHeight};">기본 본문: ${data.typography.bodySize}. (줄간격: ${data.typography.lineHeight})</p>
-        </div>
-        <p class="description" style="margin-top: 15px;">* 이 규칙은 플랫폼 표준이며, 위의 AI 추천 폰트 페어링을 적용하여 사용할 수 있습니다.</p>
-    `;
+    // 7. 코드 내보내기 (순서 변경)
+    updateCodeOutput(data); // data는 이미 확정된 reportData임
 
-    // 7. 접근성 분석 리포트 (한글)
-    // (참고: 이 리포트는 '초안' 기준입니다. 색상을 수정했다면 부정확할 수 있습니다.)
+    // 8. 접근성 분석 리포트 (한글)
     const analysisContainer = document.getElementById('accessibility-analysis');
     analysisContainer.innerHTML = ''; 
     if (data.accessibilityReport) {
@@ -665,9 +670,6 @@ function displayReportData(data) {
             `;
         }
     } 
-
-    // 8. 코드 내보내기 (최종 확정본 기준)
-    updateCodeOutput(data); // data는 이미 확정된 reportData임
 }
 
 // 코드 출력 업데이트
@@ -780,7 +782,7 @@ function hexToRgb(hex) {
     } : null;
 }
 
-// ============================================\n// [신규] CVD (색각 이상) 시뮬레이션
+// ============================================\n// [복원] CVD (색각 이상) 시뮬레이션
 // ============================================\n
 
 // 시뮬레이션 매트릭스
@@ -829,36 +831,36 @@ function rgbToHex(r, g, b) {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-// CVD 시뮬레이션 함수
+// CVD 시뮬레이션 함수 (sRGB -> LMS -> simLMS -> sRGB)
+// (감마 보정 포함)
 function cvdSimulate(hex, type) {
     const matrix = CVD_SIMULATION_MATRIX[type];
     if (!matrix) return hex;
 
+    // 1. HEX -> [0, 255]
     const [r, g, b] = hexToRgbValues(hex);
 
-    // 1. RGB to LMS (선형 RGB로 변환 후 LMS 공간으로)
-    // (간단한 감마 보정 포함)
+    // 2. sRGB (0-255) -> Linear RGB (0-1) (감마 디코딩)
     const r_lin = Math.pow(r / 255, 2.2);
     const g_lin = Math.pow(g / 255, 2.2);
     const b_lin = Math.pow(b / 255, 2.2);
 
-    // (LMS 변환 매트릭스 - 단순화를 위해 sRGB -> LMS 근사치 사용)
-    const l = (r_lin * 0.31399) + (g_lin * 0.63951) + (b_lin * 0.04650);
-    const m = (r_lin * 0.15537) + (g_lin * 0.75789) + (b_lin * 0.08674);
-    const s = (r_lin * 0.01775) + (g_lin * 0.10948) + (b_lin * 0.87277);
+    // 3. Linear RGB -> LMS (CAT02 매트릭스)
+    const l = (r_lin * 0.7328) + (g_lin * 0.4296) + (b_lin * -0.1624);
+    const m = (r_lin * 0.7036) + (g_lin * 1.6975) + (b_lin * 0.0061);
+    const s = (r_lin * 0.0030) + (g_lin * 0.0136) + (b_lin * 0.9834);
 
-    // 2. CVD 매트릭스 적용
+    // 4. CVD 매트릭스 적용
     const l_sim = (l * matrix[0]) + (m * matrix[1]) + (s * matrix[2]);
     const m_sim = (l * matrix[3]) + (m * matrix[4]) + (s * matrix[5]);
     const s_sim = (l * matrix[6]) + (m * matrix[7]) + (s * matrix[8]);
 
-    // 3. LMS to RGB
-    // (LMS -> sRGB 근사치)
-    const r_sim_lin = (l_sim * 5.4326)  + (m_sim * -4.6019) + (s_sim * 0.1693);
-    const g_sim_lin = (l_sim * -1.1054) + (m_sim * 2.3016)  + (s_sim * -0.1962);
-    const b_sim_lin = (l_sim * 0.0281)  + (m_sim * -0.1930) + (s_sim * 1.1649);
+    // 5. LMS -> Linear RGB (CAT02 역매트릭스)
+    const r_sim_lin = (l_sim * 1.0961)  + (m_sim * -0.2789) + (s_sim * 0.1828);
+    const g_sim_lin = (l_sim * -0.4543) + (m_sim * 0.4720)  + (s_sim * -0.0177);
+    const b_sim_lin = (l_sim * -0.0096) + (m_sim * -0.0057) + (s_sim * 1.0153);
 
-    // 4. 감마 보정 (LMS -> sRGB)
+    // 6. Linear RGB (0-1) -> sRGB (0-255) (감마 인코딩)
     const r_sim = Math.pow(Math.max(0, r_sim_lin), 1 / 2.2) * 255;
     const g_sim = Math.pow(Math.max(0, g_sim_lin), 1 / 2.2) * 255;
     const b_sim = Math.pow(Math.max(0, b_sim_lin), 1 / 2.2) * 255;
