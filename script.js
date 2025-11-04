@@ -555,12 +555,6 @@ function updateCodeOutput(data) {
             break;
     }
     codeOutput.textContent = code;
-    
-    // Prism.js 같은 하이라이터가 있다면 여기서 호출
-    // if (window.Prism) {
-    //     codeOutput.parentElement.classList.add(`language-${currentCodeTab === 'tailwind' ? 'javascript' : currentCodeTab}`);
-    //     Prism.highlightElement(codeOutput);
-    // }
 }
 
 

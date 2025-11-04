@@ -1246,6 +1246,7 @@ body {
     }
 }
 
+
 /* ============================================\n   [추가] 스피너 (로딩) 스타일
 ============================================ */
 .spinner {
@@ -1259,12 +1260,15 @@ body {
     -webkit-animation: spin 1s ease-in-out infinite;
 }
 
+/* @keyframes spin (중복 선언 방지 - 이미 200번째 줄 근처에 .loading용 @keyframes spin이 있습니다) */
+/*
 @keyframes spin {
     to { -webkit-transform: rotate(360deg); }
 }
 @-webkit-keyframes spin {
     to { -webkit-transform: rotate(360deg); }
 }
+*/
 
 /* 버튼 내 텍스트 숨김 */
 .btn-text.hidden {
@@ -1311,6 +1315,7 @@ body {
 }
 .ai-recommendation-box p {
     margin-bottom: 8px;
+    word-break: break-word;
 }
 .ai-recommendation-box h4 {
     font-size: 16px;
@@ -1329,17 +1334,10 @@ body {
 
 /* ============================================\n   [추가] 리포트 페이지 (Idea 1)
 ============================================ */
-/* 리포트 섹션 제목 (기존에 누락된 스타일일 수 있음) */
-.report-section-title {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-}
-.report-section.hidden {
-    display: none;
-}
+/* .report-section-title 스타일은 이미 600번째 줄 근처에 
+   정의되어 있으므로 여기서는 중복 정의하지 않습니다.
+   .report-section.hidden 스타일도 마찬가지입니다. 
+*/
 
 /* 1a. 디자인 근거 */
 .rationale-container {
@@ -1352,6 +1350,7 @@ body {
     font-size: 16px;
     line-height: 1.7;
     margin-bottom: 15px;
+    word-break: break-word; /* 긴 텍스트 줄바꿈 */
 }
 .rationale-container p:last-child {
     margin-bottom: 0;
@@ -1363,22 +1362,28 @@ body {
     margin-bottom: 5px;
 }
 
-/* 1b. 접근성 분석 */
+/* 1b. 접근성 분석 (Flexbox 수정 버전) */
 .accessibility-analysis-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    display: flex;       /* Grid 대신 Flexbox 사용 */
+    flex-wrap: wrap;   /* 카드가 영역을 넘어가면 줄바꿈 */
+    gap: 20px;         /* 카드 사이의 간격 */
 }
 .analysis-card {
     background: #ffffff;
     border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 12px;
+    flex-grow: 1;            /* 남는 공간을 채우도록 함 */
+    flex-basis: 280px;       /* 기본 너비 280px */
+    min-width: 280px;        /* 최소 너비 280px (2개 컬럼 유지) */
+    word-break: break-word;  /* 텍스트가 카드를 뚫고 나가지 않도록 함 */
+    box-sizing: border-box;  /* 패딩을 너비에 포함 */
 }
 .analysis-card h4 {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 15px;
+    word-break: break-word; /* 긴 제목도 줄바꿈 */
 }
 .analysis-card p {
     font-size: 14px;
@@ -1397,6 +1402,7 @@ body {
 }
 .wcag-status {
     display: flex;
+    flex-wrap: wrap; /* 태그가 많아지면 줄바꿈 */
     gap: 10px;
     margin-top: 10px;
 }
@@ -1415,12 +1421,32 @@ body {
     color: #d93025;
 }
 
-/* 공용 미니 색상 견본 */
-.color-swatch {
+/* 공용 미니 색상 견본 (flex-shrink 추가) 
+   .color-swatch 는 이미 260번째 줄 근처에 정의되어 있습니다.
+   기존 정의에 flex-shrink: 0; 를 추가하거나,
+   아래처럼 덮어쓸 수 있습니다.
+*/
+.color-swatch { 
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    border: 3px solid transparent; 
+}
+
+/* AI 리포트 카드 및 랩 페이지에서 사용되는 
+   더 작은 견본을 위한 스타일을 추가합니다. 
+   (기존 .color-swatch와 충돌을 피하기 위해)
+*/
+.ai-recommendation-box .color-swatch,
+.analysis-card .color-swatch {
     display: inline-block;
     width: 16px;
     height: 16px;
     border-radius: 4px;
     border: 1px solid #ccc;
     vertical-align: middle;
+    flex-shrink: 0; /* flex 컨테이너 안에서 찌그러지지 않도록 설정 */
+    cursor: default;
 }
