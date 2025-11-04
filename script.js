@@ -246,7 +246,7 @@ function initializeLabPage() {
     labElements.wcagNormalEl = document.getElementById('wcag-badge-normal');
     labElements.wcagLargeEl = document.getElementById('wcag-badge-large');
     
-    // [수정] CVD 시뮬레이션 프리뷰 (1개)
+    // [수정] 1-Grid CVD 시뮬레이션 프리뷰 요소
     labElements.previewContentCvd = document.getElementById('preview-content-cvd');
     labElements.previewButtonCvd = document.getElementById('preview-button-cvd');
 
@@ -321,15 +321,12 @@ function confirmAndGenerateReport() {
         return;
     }
 
-    // 1. AI 초안(generatedResult)을 reportData로 깊은 복사
     reportData = JSON.parse(JSON.stringify(appState.generatedResult));
 
-    // 2. 랩에서 검증/수정한 색상으로 reportData를 덮어씀
     reportData.colorSystem.primary.main = appState.labColors.primaryColor;
     reportData.colorSystem.neutral.lightGray = appState.labColors.bgColor;
     reportData.colorSystem.neutral.darkGray = appState.labColors.textColor;
     
-    // 3. (Tab 3)로 이동
     navigateToTab('report-page');
 }
 
@@ -389,7 +386,7 @@ async function getAiLabRecommendation() {
 }
 
 
-// [수정] 랩 프리뷰 + 1개 CVD 시뮬레이션 업데이트
+// [수정] 랩 프리뷰 + 1-CVD 시뮬레이션 업데이트
 function updateLabPreview() {
     const { bgColor, textColor, primaryColor } = appState.labColors;
 
@@ -805,27 +802,22 @@ function cvdSimulate(hex, type) {
 
     const [r, g, b] = hexToRgbValues(hex);
 
-    // 1. sRGB (0-255) -> Linear RGB (0-1) (감마 디코딩)
     const r_lin = Math.pow(r / 255, 2.2);
     const g_lin = Math.pow(g / 255, 2.2);
     const b_lin = Math.pow(b / 255, 2.2);
 
-    // 2. Linear RGB -> LMS (CAT02 매트릭스)
     const l = (r_lin * 0.7328) + (g_lin * 0.4296) + (b_lin * -0.1624);
     const m = (r_lin * 0.7036) + (g_lin * 1.6975) + (b_lin * 0.0061);
     const s = (r_lin * 0.0030) + (g_lin * 0.0136) + (b_lin * 0.9834);
 
-    // 3. CVD 매트릭스 적용
     const l_sim = (l * matrix[0]) + (m * matrix[1]) + (s * matrix[2]);
     const m_sim = (l * matrix[3]) + (m * matrix[4]) + (s * matrix[5]);
     const s_sim = (l * matrix[6]) + (m * matrix[7]) + (s * matrix[8]);
 
-    // 4. LMS -> Linear RGB (CAT02 역매트릭스)
     const r_sim_lin = (l_sim * 1.0961)  + (m_sim * -0.2789) + (s_sim * 0.1828);
     const g_sim_lin = (l_sim * -0.4543) + (m_sim * 0.4720)  + (s_sim * -0.0177);
     const b_sim_lin = (l_sim * -0.0096) + (m_sim * -0.0057) + (s_sim * 1.0153);
 
-    // 5. Linear RGB (0-1) -> sRGB (0-255) (감마 인코딩)
     const r_sim = Math.pow(Math.max(0, r_sim_lin), 1 / 2.2) * 255;
     const g_sim = Math.pow(Math.max(0, g_sim_lin), 1 / 2.2) * 255;
     const b_sim = Math.pow(Math.max(0, b_sim_lin), 1 / 2.2) * 255;

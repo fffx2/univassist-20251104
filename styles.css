@@ -295,7 +295,7 @@ body {
 /* [수정] 랩 컨테이너 (컨트롤 | 프리뷰) */
 .lab-container {
     display: grid;
-    grid-template-columns: 350px 1fr; /* 컨트롤 패널 350px 고정 */
+    grid-template-columns: 350px 1fr; /* 컨트롤 350px 고정, 나머지가 프리뷰 */
     gap: 40px;
     background: white;
     border: 1px solid #e0e0e0;
@@ -374,6 +374,7 @@ body {
     font-weight: 600;
     margin-right: auto; /* 제목을 왼쪽으로 */
 }
+/* [신규] WCAG + 대비율 묶음 */
 .preview-header .wcag-info {
     display: flex;
     gap: 10px;
@@ -928,7 +929,7 @@ body {
         grid-template-columns: 1fr; 
         gap: 30px; 
     }
-    /* [수정] 랩 비교 패널 모바일 */
+    /* [수정] 랩 비교 패널 모바일 (1열로) */
     .comparison-pane { 
         grid-template-columns: 1fr; 
     }

@@ -23,7 +23,6 @@ exports.handler = async (event) => {
     );
     const iriHint = colorGroup ? `IRI 색채 연구에서 '${context.keyword}' 키워드는 '${colorGroup.description}' 그룹(${colorGroup.key_colors.join(', ')})과 연관됩니다. 이를 참고하여 색상을 생성하세요.` : '';
 
-    // [수정] AI 프롬프트에 UX 카피라이팅 추가
     const systemPrompt = `당신은 전문 UI/UX 디자인 시스템 생성기입니다.
     모든 응답, 설명, 주석은 반드시 **한국어**로 작성해야 합니다.
     
