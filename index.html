@@ -13,9 +13,9 @@
     <div class="container">
         <header class="header">
             <div class="header-left">
-                <a href="#" class="nav-link active" data-target="main-page">컬러시스템 설계</a>
-                <a href="#" class="nav-link" data-target="lab-page">유니버설 컬러시스템 실험실</a>
-                <a href="#" class="nav-link" data-target="report-page">AI 디자인 리포트</a>
+                <a href="#" class="nav-link active" data-target="main-page">1. AI 컬러시스템 설계</a>
+                <a href="#" class="nav-link" data-target="lab-page">2. 유니버설 컬러 검증</a>
+                <a href="#" class="nav-link" data-target="report-page">3. AI 디자인 리포트</a>
             </div>
             <div class="header-right">
                 <span class="typouniverse-logo">UNIVASSIST</span>
@@ -50,7 +50,7 @@
                     </div>
 
                     <button class="generate-btn" id="generate-guide-btn">
-                        <span class="btn-text">AI 가이드 생성하기</span>
+                        <span class="btn-text">AI 초안 생성하기</span>
                         <div class="spinner hidden"></div>
                     </button>
                 </div>
@@ -58,8 +58,32 @@
                 <div class="right-column-section">
                     <div class="ai-message-box" id="ai-message-box">
                         <span class="ai-avatar">🤖</span>
-                        <p id="ai-message-text">안녕하세요! UNIVASSIST입니다.<br>왼쪽 항목을 입력하고 생성 버튼을 눌러주세요.</p>
+                        <p id="ai-message-text">안녕하세요! UNIVASSIST입니다.<br>왼쪽 항목을 입력하고 'AI 초안 생성하기' 버튼을 눌러주세요.</p>
                         <div class="typing-cursor"></div>
+                    </div>
+
+                    <div class="ai-draft-preview hidden" id="ai-draft-preview">
+                        <h4>AI 추천 색상 (초안)</h4>
+                        <div class="draft-palette">
+                            <div class="draft-color-box">
+                                <div class="draft-swatch" id="draft-primary-swatch"></div>
+                                <span>Primary</span>
+                                <span class="draft-hex" id="draft-primary-hex"></span>
+                            </div>
+                            <div class="draft-color-box">
+                                <div class="draft-swatch" id="draft-secondary-swatch"></div>
+                                <span>Secondary</span>
+                                <span class="draft-hex" id="draft-secondary-hex"></span>
+                            </div>
+                            <div class="draft-color-box">
+                                <div class="draft-swatch" id="draft-text-swatch"></div>
+                                <span>Text (Dark)</span>
+                                <span class="draft-hex" id="draft-text-hex"></span>
+                            </div>
+                        </div>
+                        <button class="lab-button" id="go-to-lab-btn" style="margin-top: 20px;">
+                            <span class="btn-text">➡️ 2단계: 색상 검증하러 가기</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -68,63 +92,109 @@
         <div id="lab-page" class="lab-page">
             <div class="lab-header">
                 <h1>유니버설 컬러시스템 실험실</h1>
-                <p>배경색과 텍스트 색상을 조합하며 실시간으로 접근성(WCAG)과 IRI 감성 배색을 확인하세요.</p>
+                <p>AI가 제안한 색상을 색각 이상자 시뮬레이션과 WCAG 기준으로 검증하고 확정합니다.</p>
             </div>
             
             <div class="lab-container">
                 <div class="lab-controls">
                     <h2>실시간 테스트</h2>
                     <div class="control-group">
-                        <label for="lab-bg-color">배경 색상</label>
+                        <label for="lab-bg-color">배경 색상 (Neutral Light)</label>
                         <div class="color-input-wrapper">
                             <input type="color" id="lab-bg-color" value="#F5F5F5">
                             <input type="text" id="lab-bg-hex" value="#F5F5F5">
                         </div>
                     </div>
                     <div class="control-group">
-                        <label for="lab-text-color">텍스트 색상</label>
+                        <label for="lab-text-color">텍스트 색상 (Neutral Dark)</label>
                         <div class="color-input-wrapper">
                             <input type="color" id="lab-text-color" value="#333333">
                             <input type="text" id="lab-text-hex" value="#333333">
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label for="lab-primary-color">주조 색상 (Primary Main)</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" id="lab-primary-color" value="#6666FF">
+                            <input type="text" id="lab-primary-hex" value="#6666FF">
+                        </div>
+                    </div>
 
-                    <button class="lab-button" id="get-ai-recommendation-btn">
-                        <span class="btn-text">🤖 AI 색상 추천 받기</span>
+                    <button class="lab-button" id="get-ai-recommendation-btn" style="background-color: #555;">
+                        <span class="btn-text">🤖 (선택) AI 실시간 색상 추천</span>
                         <div class="spinner hidden"></div>
                     </button>
-
-                    <button class="lab-button" id="load-ai-colors-btn" style="background-color: #555; margin-top: 10px;">
-                        <span class="btn-text">🎨 AI 리포트 색상 불러오기</span>
-                    </button>
-
+                    
                     <div class="ai-recommendation-box" id="ai-lab-message-box" style="display: none;">
                         </div>
 
                     <hr class="divider">
+                    
+                    <button class="generate-btn" id="confirm-and-generate-report-btn">
+                        <span class="btn-text">✅ 이 색상으로 리포트 확정</span>
+                    </button>
+                    <p class="description" style="font-size: 13px; text-align: center; margin-top: 10px;">
+                        * 3단계 리포트 탭으로 이동합니다.
+                    </p>
 
-                    <h2>IRI 감성 배색</h2>
-                    <div class="iri-analysis" id="iri-analysis">
-                        <p><strong>배경색:</strong> <span id="iri-bg-analysis">-</span></p>
-                        <p><strong>텍스트색:</strong> <span id="iri-text-analysis">-</span></p>
-                        <p><strong>조합:</strong> <span id="iri-combination-analysis">-</span></p>
-                    </div>
-                    <div class="iri-recommendation">
-                        <strong>AI 추천 이유:</strong>
-                        <p id="universal-reasoning">-</p>
-                    </div>
                 </div>
 
-                <div class="lab-preview">
-                    <div class="preview-header">
-                        <span class="wcag-badge" id="wcag-badge-normal">AA Normal: Fail</span>
-                        <span class="wcag-badge" id="wcag-badge-large">AA Large: Pass</span>
-                        <span class="contrast-ratio" id="contrast-ratio">Contrast: 12.58:1</span>
+                <div class="preview-pane">
+                    <div class="lab-preview" id="lab-preview-normal">
+                        <div class="preview-header">
+                            <strong>일반 시야 (Normal Vision)</strong>
+                            <span class="wcag-badge" id="wcag-badge-normal">AA Normal: Fail</span>
+                            <span class="wcag-badge" id="wcag-badge-large">AA Large: Pass</span>
+                            <span class="contrast-ratio" id="contrast-ratio">Contrast: 12.58:1</span>
+                        </div>
+                        <div class="preview-content" id="preview-content-normal">
+                            <h1>헤드라인 (Large Text)</h1>
+                            <p>이것은 본문 텍스트(Normal Text)입니다. 배경색과 텍스트 색상 간의 명도 대비를 확인합니다.</p>
+                            <button class="preview-button" id="preview-button-normal">주조색 버튼</button>
+                        </div>
                     </div>
-                    <div class="preview-content" id="preview-content">
-                        <h1>헤드라인 (Large Text)</h1>
-                        <p>이것은 본문 텍스트(Normal Text)입니다. 배경색과 텍스트 색상 간의 명도 대비는 웹 접근성을 위해 매우 중요합니다. WCAG 2.1 AA 기준은 일반 텍스트의 경우 4.5:1, 큰 텍스트의 경우 3:1 이상의 명도 대비를 권장합니다.</p>
-                        <button class="preview-button" id="preview-button">버튼 예시 (Button)</button>
+
+                    <div class="simulator-grid">
+                        <div class="simulator-card">
+                            <h4>제1색각 (적색맹)</h4>
+                            <div class="lab-preview sim">
+                                <div class="preview-content" id="preview-content-protanopia">
+                                    <h1>헤드라인</h1>
+                                    <p>본문 텍스트입니다.</p>
+                                    <button class="preview-button" id="preview-button-protanopia">주조색 버튼</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="simulator-card">
+                            <h4>제2색각 (녹색맹)</h4>
+                            <div class="lab-preview sim">
+                                <div class="preview-content" id="preview-content-deuteranopia">
+                                    <h1>헤드라인</h1>
+                                    <p>본문 텍스트입니다.</p>
+                                    <button class="preview-button" id="preview-button-deuteranopia">주조색 버튼</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="simulator-card">
+                            <h4>제3색각 (청색맹)</h4>
+                            <div class="lab-preview sim">
+                                <div class="preview-content" id="preview-content-tritanopia">
+                                    <h1>헤드라인</h1>
+                                    <p>본문 텍스트입니다.</p>
+                                    <button class="preview-button" id="preview-button-tritanopia">주조색 버튼</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="simulator-card">
+                            <h4>전색맹 (Achromatopsia)</h4>
+                            <div class="lab-preview sim">
+                                <div class="preview-content" id="preview-content-achromatopsia">
+                                    <h1>헤드라인</h1>
+                                    <p>본문 텍스트입니다.</p>
+                                    <button class="preview-button" id="preview-button-achromatopsia">주조색 버튼</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -134,11 +204,11 @@
             <div class="report-container">
                 <div class="report-header">
                     <h1>AI 디자인 리포트</h1>
-                    <p>생성된 디자인 시스템 가이드입니다.</p>
+                    <p>최종 검증된 디자인 시스템 가이드입니다.</p>
                 </div>
 
                 <div class="report-content" id="report-content">
-                    <p class="placeholder-text" id="report-placeholder">먼저 '컬러시스템 설계' 탭에서 AI 가이드를 생성해주세요.</p>
+                    <p class="placeholder-text" id="report-placeholder">먼저 '1. AI 컬러시스템 설계' 탭에서 초안을 생성하고, '2. 유니버설 컬러 검증' 탭에서 리포트를 확정해주세요.</p>
 
                     <section class="report-section hidden" id="rationale-section">
                         <h2 class="report-section-title">AI 디자인 근거 (Rationale)</h2>
@@ -155,7 +225,7 @@
                     </section>
                     
                     <section class="report-section hidden" id="color-section">
-                        <h2 class="report-section-title">Color System</h2>
+                        <h2 class="report-section-title">최종 확정 Color System</h2>
                         <div class="palette-grid" id="palette-grid"></div>
                     </section>
 
