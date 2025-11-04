@@ -353,9 +353,6 @@ function updateLabPreview() {
     // WCAG 배지 업데이트
     updateWCAGBadge(wcagNormalEl, 'AA Normal', contrast, 4.5);
     updateWCAGBadge(wcagLargeEl, 'AA Large', contrast, 3.0);
-
-    // TODO: IRI 감성 분석 로직 (현재는 비어있음)
-    // updateIRIAnalysis(bgColor, textColor);
 }
 
 function updateWCAGBadge(element, prefix, contrast, threshold) {
@@ -426,13 +423,13 @@ function displayReportData(data) {
         rationaleContainer.innerHTML = '<p>디자인 근거를 생성하지 못했습니다.</p>';
     }
 
-    // 2. 색상 시스템
+    // 2. 색상 시스템 (CSS 수정됨)
     const paletteGrid = document.getElementById('palette-grid');
     paletteGrid.innerHTML = '';
     for (const [category, colors] of Object.entries(data.colorSystem)) {
         for (const [name, hex] of Object.entries(colors)) {
             const colorBox = document.createElement('div');
-            colorBox.className = 'color-box';
+            colorBox.className = 'color-box'; // CSS가 .palette-grid .color-box를 타겟
             colorBox.innerHTML = `
                 <div class="color-swatch" style="background-color: ${hex}"></div>
                 <div class="color-info">
@@ -453,13 +450,18 @@ function displayReportData(data) {
         </div>
     `;
 
-    // 4. 컴포넌트 미리보기 (스타일 동적 적용)
+    // 4. 컴포넌트 미리보기 (CSS 수정됨)
+    // [수정] 클래스 이름을 preview-btn, preview-card로 유지
     const showcase = document.getElementById('component-showcase');
     const pColor = data.colorSystem.primary.main;
-    const pText = getContrastRatio(pColor, '#FFFFFF') > 3 ? '#FFFFFF' : '#000000';
+    // 주조색 위의 텍스트 색상 결정 (간단한 명도 대비)
+    const pText = getContrastRatio(pColor, '#FFFFFF') > 3 ? '#FFFFFF' : '#000000'; 
+    const sColor = data.colorSystem.secondary.main;
+    const sText = getContrastRatio(sColor, '#FFFFFF') > 3 ? '#FFFFFF' : '#000000';
+    
     showcase.innerHTML = `
         <button class="preview-btn" style="background-color: ${pColor}; color: ${pText};">Primary Button</button>
-        <button class="preview-btn" style="background-color: ${data.colorSystem.secondary.main}; color: #000000;">Secondary Button</button>
+        <button class="preview-btn" style="background-color: ${sColor}; color: ${sText};">Secondary Button</button>
         <div class="preview-card" style="border-top-color: ${pColor};">
             <h3>Card Title</h3>
             <p>This is a card component using the generated neutral colors.</p>
