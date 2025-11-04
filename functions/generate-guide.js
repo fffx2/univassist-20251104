@@ -2,12 +2,11 @@ const OpenAI = require('openai');
 
 // OpenAI API 클라이언트 초기화
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY  // Netlify 환경변수에서 API 키 가져오기
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 // Netlify Functions 핸들러
 exports.handler = async (event) => {
-  // POST 요청만 허용
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -16,31 +15,28 @@ exports.handler = async (event) => {
   }
 
   try {
-    // 요청 본문에서 데이터 추출
     const { context, knowledgeBase } = JSON.parse(event.body);
     
-    // 관련 지식 추출
     const platformGuide = knowledgeBase.guidelines[context.platform.toLowerCase()] || knowledgeBase.guidelines.web;
     const colorGroup = Object.values(knowledgeBase.iri_colors).find(group => 
       group.keywords.includes(context.keyword)
     );
-    const iriHint = colorGroup ? `IRI 색채 연구에서 '${context.keyword}' 키워드는 '${colorGroup.description}' 그룹(${colorGroup.key_colors.join(', ')})과 연관됩니다. 이를 참고하세요.` : '';
+    const iriHint = colorGroup ? `IRI 색채 연구에서 '${context.keyword}' 키워드는 '${colorGroup.description}' 그룹(${colorGroup.key_colors.join(', ')})과 연관됩니다. 이를 참고하여 색상을 생성하세요.` : '';
 
-    // AI 시스템 프롬프트 (대폭 수정)
-    const systemPrompt = `You are an expert UI/UX design system generator.
-    Your task is to create a comprehensive design system guide based on user context and provided knowledge.
+    // [수정] AI 프롬프트에 UX 카피라이팅 추가
+    const systemPrompt = `당신은 전문 UI/UX 디자인 시스템 생성기입니다.
+    모든 응답, 설명, 주석은 반드시 **한국어**로 작성해야 합니다.
     
-    User Context:
-    - Platform: ${context.platform}
-    - Service Purpose: ${context.service}
-    - Desired Mood: ${context.keyword}
-    - User's Primary Color: ${context.primaryColor}
+    사용자 컨텍스트:
+    - 플랫폼: ${context.platform}
+    - 서비스 목적: ${context.service}
+    - 희망 분위기: ${context.keyword}
 
-    Knowledge Base Hints:
-    - Platform Guidelines: ${JSON.stringify(platformGuide)}
+    지식 베이스 힌트:
+    - 플랫폼 가이드라인: ${JSON.stringify(platformGuide)}
     - ${iriHint}
 
-    Please return a single, valid JSON object with the following precise structure:
+    아래 명시된 정확한 JSON 구조로 단일 JSON 객체를 반환하세요:
     
     {
       "colorSystem": {
@@ -54,34 +50,59 @@ exports.handler = async (event) => {
         "lineHeight": "${platformGuide.lineHeight || 1.6}",
         "fontFamily": "${platformGuide.font.family}, sans-serif"
       },
+      "fontPairing": {
+        "headline": {
+          "name": "추천 Google Font 이름 (예: Noto Sans KR)",
+          "weight": "추천 굵기 (예: 700)",
+          "urlQuery": "Google Font API 쿼리용 이름 (예: Noto+Sans+KR:wght@700)"
+        },
+        "body": {
+          "name": "추천 Google Font 이름 (예: Pretendard)",
+          "weight": "400",
+          "urlQuery": "Pretendard"
+        },
+        "reasoning": "이 두 한글 폰트 조합을 추천하는 이유 (서비스 목적과 분위기 연관지어 한국어로 설명)"
+      },
+      "uxCopy": {
+        "navigation": [
+          "서비스 목적('${context.service}')에 맞는 GNB 네비게이션 메뉴 1 (예: 홈)",
+          "메뉴 2 (예: 서비스 소개)",
+          "메뉴 3 (예: 주요 기능)",
+          "메뉴 4 (예: 마이페이지)",
+          "메뉴 5 (예: 고객센터)"
+        ],
+        "ctaButton": "서비스 목적('${context.service}')에 맞는 메인 CTA 버튼 텍스트 (예: 시작하기)",
+        "cardTitle": "샘플 카드 제목 (예: 오늘의 추천)",
+        "cardBody": "샘플 카드 본문 (서비스 목적과 관련된 1줄 설명)"
+      },
       "designRationale": {
-        "summary": "A brief explanation of why this design system was chosen, linking the service ('${context.service}') and mood ('${context.keyword}') to the choices.",
-        "colorChoice": "Specific reason for the primary and secondary color choices, considering the mood and user's primary color.",
-        "typographyChoice": "Specific reason for the font size and line height based on the platform ('${context.platform}')."
+        "summary": "이 디자인 시스템을 선택한 이유 요약 (한국어)",
+        "colorChoice": "생성된 색상 선택 이유 (한국어)",
+        "typographyChoice": "기본 타이포그래피 규칙(크기, 줄간격) 선택 이유 (한국어)"
       },
       "accessibilityReport": {
         "primaryOnWhite": {
-          "description": "Primary color (main) on a white background (#FFFFFF).",
-          "contrastRatio": "Calculate WCAG contrast ratio.",
-          "wcagAANormal": "Pass/Fail (AA for normal text)",
-          "wcagAAALarge": "Pass/Fail (AAA for large text)",
-          "comment": "Brief recommendation if it fails AA Normal."
+          "description": "흰색 배경(#FFFFFF) 위의 주조색(main)",
+          "contrastRatio": "WCAG 명도 대비율 계산",
+          "wcagAANormal": "통과/실패 (AA 일반 텍스트)",
+          "wcagAAALarge": "통과/실패 (AAA 큰 텍스트)",
+          "comment": "AA 일반 기준 실패 시 간단한 개선 제안 (한국어)"
         },
         "textOnPrimary": {
-          "description": "White text (#FFFFFF) on the primary color (main).",
+          "description": "주조색(main) 배경 위의 흰색 텍스트(#FFFFFF)",
           "textColor": "#FFFFFF",
-          "contrastRatio": "Calculate WCAG contrast ratio.",
-          "wcagAANormal": "Pass/Fail (AA for normal text)",
-          "wcagAAALarge": "Pass/Fail (AAA for large text)",
-          "comment": "If this fails, suggest 'dark' text instead."
+          "contrastRatio": "WCAG 명도 대비율 계산",
+          "wcagAANormal": "통과/실패",
+          "wcagAAALarge": "통과/실패",
+          "comment": "실패 시 어두운 텍스트 사용 제안 (한국어)"
         },
         "textOnWhite": {
-          "description": "Dark Gray text (neutral.darkGray) on a white background (#FFFFFF).",
-          "textColor": "(Use the neutral.darkGray value you generated)",
-          "contrastRatio": "Calculate WCAG contrast ratio.",
-          "wcagAANormal": "Pass/Fail (AA for normal text)",
-          "wcagAAALarge": "Pass/Fail (AAA for large text)",
-          "comment": "This should always pass."
+          "description": "흰색 배경(#FFFFFF) 위의 어두운 회색 텍스트(neutral.darkGray)",
+          "textColor": "(neutral.darkGray 값)",
+          "contrastRatio": "WCAG 명도 대비율 계산",
+          "wcagAANormal": "통과/실패",
+          "wcagAAALarge": "통과/실패",
+          "comment": "기본 본문 텍스트 가독성 (한국어)"
         }
       }
     }
@@ -89,14 +110,14 @@ exports.handler = async (event) => {
 
     // OpenAI API 호출
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo-1106", // 1106 or newer model supporting JSON mode
+      model: "gpt-3.5-turbo-1106",
       messages: [
         { role: "system", content: systemPrompt },
-        { role: "user", content: "Generate the design guide based on my context." }
+        { role: "user", content: "제 컨텍스트에 맞는 디자인 가이드를 생성해 주세요." }
       ],
-      response_format: { type: "json_object" }, // JSON 모드 활성화
+      response_format: { type: "json_object" },
       temperature: 0.7,
-      max_tokens: 1500 
+      max_tokens: 2500 // UX 카피 등 추가 정보로 인해 토큰 확장
     });
 
     // AI 응답 파싱
@@ -115,7 +136,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: 'Failed to generate AI guide', error: error.message })
+      body: JSON.stringify({ message: 'AI 가이드 생성에 실패했습니다.', error: error.message })
     };
   }
 };

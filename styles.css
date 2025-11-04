@@ -1,5 +1,4 @@
-/* ============================================
-   기본 스타일
+/* ============================================\n   기본 스타일
 ============================================ */
 * {
     margin: 0;
@@ -33,8 +32,7 @@ body {
     display: none !important; 
 }
 
-/* ============================================
-   헤더 네비게이션
+/* ============================================\n   헤더 네비게이션
 ============================================ */
 .header {
     display: flex;
@@ -76,12 +74,11 @@ body {
     letter-spacing: 2px;
 }
 
-/* ============================================
-   메인 페이지 레이아웃 (사용자 원본)
+/* ============================================\n   메인 페이지 레이아웃
 ============================================ */
 #main-page .main-content {
     display: grid;
-    grid-template-columns: 1fr 1.5fr; /* 원본 레이아웃 */
+    grid-template-columns: 1fr 1.5fr; /* 2단 그리드 유지 */
     gap: 60px;
     margin-bottom: 60px;
 }
@@ -96,29 +93,30 @@ body {
     color: #666;
     margin-bottom: 30px;
 }
+
 .form-group {
     margin-bottom: 25px;
 }
 .form-group label {
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 10px;
 }
 .form-group .description {
     font-size: 13px;
     color: #777;
-    margin-bottom: 12px;
+    margin-bottom: 15px;
 }
 .form-group input[type="text"] {
     width: 100%;
     padding: 12px 15px;
-    font-size: 15px;
-    font-family: inherit;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    background: #fff;
+    font-family: inherit;
+    font-size: 15px;
 }
+
 .platform-selector {
     display: flex;
     gap: 10px;
@@ -126,12 +124,12 @@ body {
 .platform-btn {
     flex: 1;
     padding: 12px;
-    font-size: 14px;
-    font-weight: 500;
     border: 1px solid #e0e0e0;
-    background: #fff;
+    background: white;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
     transition: all 0.2s;
 }
 .platform-btn:hover {
@@ -142,33 +140,6 @@ body {
     color: white;
     border-color: #6666ff;
 }
-.color-input-wrapper { 
-    display: flex; 
-    align-items: center; 
-    gap: 10px; 
-    height: 48px; 
-}
-.color-input-wrapper input[type="text"] {
-    flex: 1;
-    height: 100%;
-}
-.color-input-wrapper input[type="color"] {
-    width: 48px;
-    height: 48px;
-    border: none;
-    padding: 0;
-    border-radius: 8px;
-    cursor: pointer;
-    overflow: hidden;
-    background: none;
-}
-input[type="color"]::-webkit-color-swatch-wrapper {
-    padding: 0;
-}
-input[type="color"]::-webkit-color-swatch {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-}
 
 .iri-keyword-selector {
     display: flex;
@@ -177,92 +148,24 @@ input[type="color"]::-webkit-color-swatch {
 }
 .keyword-chip {
     padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    background: #f0f0f0;
-    color: #555;
-    border: none;
+    border: 1px solid #ccc;
     border-radius: 20px;
+    background: white;
     cursor: pointer;
+    font-size: 14px;
     transition: all 0.2s;
 }
 .keyword-chip:hover {
-    background: #e0e0e0;
+    background: #f0f0f0;
 }
 .keyword-chip.active {
     background: #ff6b6b;
     color: white;
-    font-weight: 600;
+    border-color: #ff6b6b;
+    font-weight: 500;
 }
 
-/* ============================================
-   메인 페이지 - 우측 (가이드라인)
-============================================ */
-.guideline-section {
-    position: sticky;
-    top: 40px;
-    height: calc(100vh - 80px); /* 화면 높이에 맞게 */
-    display: flex;
-    flex-direction: column;
-}
-.guideline-content {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 30px;
-    flex-grow: 1; /* 남은 공간 차지 */
-    overflow-y: auto;
-}
-.guideline-content h2 {
-    font-size: 20px;
-    margin-bottom: 20px;
-}
-.guideline-content ul {
-    list-style-position: inside;
-    padding-left: 10px;
-}
-.guideline-content li {
-    margin-bottom: 10px;
-    font-size: 15px;
-    color: #333;
-}
-.ai-message-box {
-    margin-top: 20px;
-    background: #2c2c2e;
-    color: #f5f5f7;
-    border-radius: 12px;
-    padding: 20px;
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
-    font-size: 15px;
-    line-height: 1.5;
-    min-height: 80px;
-}
-.ai-message-box.error p {
-    color: #ff6b6b;
-}
-.ai-avatar {
-    font-size: 20px;
-    flex-shrink: 0;
-}
-.typing-cursor { 
-    display: inline-block;
-    width: 8px;
-    height: 15px;
-    background: #f5f5f7;
-    margin-left: 2px;
-    animation: blink 0.7s infinite; 
-    vertical-align: text-bottom;
-}
-@keyframes blink { 
-    50% { opacity: 0; } 
-}
-
-/* ============================================
-   버튼 스타일
-============================================ */
-button#generate-guide-btn { /* ID로 특정 */
+.generate-btn { 
     display: flex; 
     justify-content: center; 
     align-items: center; 
@@ -277,36 +180,80 @@ button#generate-guide-btn { /* ID로 특정 */
     font-weight: 600; 
     cursor: pointer; 
     transition: all 0.3s ease; 
-    margin-top: 30px; 
-    height: 54px; /* 높이 고정 */
+    margin-top: 30px;
+    height: 52px;
 }
-button#generate-guide-btn:hover { 
+.generate-btn:hover { 
     background: #5555ee; 
     transform: translateY(-2px); 
     box-shadow: 0 5px 15px rgba(102,102,255,0.3); 
 }
-button#generate-guide-btn:disabled {
-    background: #aaa;
+.generate-btn:disabled {
+    background-color: #999;
     cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
 }
 
-/* ============================================
-   유니버설 컬러시스템 페이지 (랩)
+/* ============================================\n   메인 페이지 - 우측 (AI 메시지)
+============================================ */
+/* [수정] 오른쪽 컬럼은 이제 이 섹션이 채웁니다. */
+.right-column-section {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 30px;
+    /* AI 메시지 박스가 중앙에 오도록 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ai-message-box {
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+.ai-message-box .ai-avatar {
+    font-size: 24px;
+}
+.ai-message-box p {
+    flex: 1;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+}
+.ai-message-box.error p {
+    color: #d93025;
+}
+.typing-cursor { 
+    font-weight: bold; 
+    color: #888; 
+    animation: blink 0.7s infinite; 
+    display: none;
+}
+
+@keyframes blink { 
+    50% { opacity: 0; } 
+}
+
+/* ============================================\n   랩 페이지
 ============================================ */
 .lab-header {
     text-align: center;
     margin-bottom: 40px;
 }
 .lab-header h1 {
-    font-size: 32px;
+    font-size: 28px;
+    font-weight: 700;
     margin-bottom: 10px;
 }
 .lab-header p {
     font-size: 16px;
     color: #666;
 }
+
 .lab-container {
     display: grid;
     grid-template-columns: 350px 1fr;
@@ -314,15 +261,10 @@ button#generate-guide-btn:disabled {
     background: white;
     border: 1px solid #e0e0e0;
     border-radius: 12px;
-    overflow: hidden;
-}
-.lab-controls {
     padding: 30px;
-    background: #f8f9fa;
-    border-right: 1px solid #e0e0e0;
 }
 .lab-controls h2 {
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     margin-bottom: 20px;
 }
@@ -335,9 +277,32 @@ button#generate-guide-btn:disabled {
     font-weight: 500;
     margin-bottom: 8px;
 }
+.color-input-wrapper { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    height: 48px; 
+}
+.color-input-wrapper input[type="color"] {
+    width: 48px; 
+    height: 48px; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    padding: 4px; 
+}
+.color-input-wrapper input[type="text"] {
+    flex: 1; 
+    padding: 10px; 
+    border: 1px solid #e0e0e0; 
+    border-radius: 8px; 
+    font-family: inherit; 
+    font-size: 16px; 
+    height: 100%;
+}
 .divider {
     border: none;
-    border-top: 1px solid #e0e0e0;
+    border-top: 1px solid #eee;
     margin: 30px 0;
 }
 .iri-analysis p {
@@ -345,34 +310,31 @@ button#generate-guide-btn:disabled {
     margin-bottom: 8px;
 }
 .iri-recommendation {
-    margin-top: 20px;
+    margin-top: 15px;
+    font-size: 13px;
+    color: #555;
 }
 .iri-recommendation strong {
-    font-size: 14px;
-    font-weight: 600;
     color: #333;
-}
-.iri-recommendation p {
-    font-size: 14px;
-    color: #555;
-    font-style: italic;
-    margin-top: 5px;
+    font-weight: 600;
 }
 
 .lab-preview {
-    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
 }
 .preview-header {
+    padding: 15px 20px;
+    background: #eee;
     display: flex;
     gap: 15px;
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #eee;
+    align-items: center;
 }
 .wcag-badge {
-    padding: 6px 12px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
+    padding: 4px 10px;
     border-radius: 20px;
 }
 .wcag-badge.pass {
@@ -384,21 +346,17 @@ button#generate-guide-btn:disabled {
     color: #d93025;
 }
 .contrast-ratio {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 500;
     color: #333;
-    display: flex;
-    align-items: center;
 }
 .preview-content {
     padding: 30px;
-    border-radius: 8px;
     transition: all 0.3s;
-    border: 1px dashed #ccc;
 }
 .preview-content h1 {
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 24px;
+    font-weight: 600;
     margin-bottom: 15px;
 }
 .preview-content p {
@@ -407,17 +365,16 @@ button#generate-guide-btn:disabled {
     margin-bottom: 20px;
 }
 .preview-button {
-    padding: 12px 24px;
-    font-size: 15px;
-    font-weight: 600;
-    border: none;
+    padding: 10px 20px;
     border-radius: 8px;
-    cursor: not-allowed;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.3s;
 }
 
-/* ============================================
-   AI 디자인 리포트 페이지
+/* ============================================\n   리포트 페이지
 ============================================ */
 .report-container {
     max-width: 900px;
@@ -429,27 +386,121 @@ button#generate-guide-btn:disabled {
 }
 .report-header h1 {
     font-size: 32px;
+    font-weight: 700;
     margin-bottom: 10px;
 }
 .report-header p {
-    font-size: 16px;
+    font-size: 18px;
     color: #666;
 }
 .placeholder-text {
+    text-align: center;
     font-size: 18px;
     color: #888;
-    text-align: center;
-    padding: 80px 20px;
-    background: #fdfdfd;
-    border: 2px dashed #e0e0e0;
+    padding: 80px 0;
+    background: white;
+    border: 1px dashed #ccc;
     border-radius: 12px;
 }
+/* [신규] 리포트 내 소제목 */
+.report-subsection-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+
+/* ============================================\n   스피너 (로딩) 스타일
+============================================ */
+.spinner {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #ffffff;
+    animation: spin 1s ease-in-out infinite;
+    -webkit-animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+}
+
+/* 버튼 내 텍스트 숨김 */
+.btn-text.hidden {
+    display: none;
+}
+.spinner.hidden {
+    display: none;
+}
+
+/* ============================================\n   랩 페이지 AI 버튼
+============================================ */
+.lab-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+}
+.lab-button:hover {
+    background-color: #555;
+}
+.lab-button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+/* 랩 페이지 메시지 박스 */
+.ai-recommendation-box {
+    margin-top: 20px;
+    padding: 16px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+.ai-recommendation-box p {
+    margin-bottom: 8px;
+    word-break: break-word;
+}
+.ai-recommendation-box h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 6px;
+}
+.ai-recommendation-box .reasoning {
+    font-style: italic;
+    color: #555;
+    margin-top: 10px;
+}
+.ai-recommendation-box.error p {
+    color: #d93025;
+}
+
+/* ============================================\n   리포트 페이지 (새 버전 스타일)
+============================================ */
 .report-section {
     background: white;
-    padding: 40px;
-    border-radius: 12px;
     border: 1px solid #e0e0e0;
-    margin-bottom: 40px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    padding: 30px;
 }
 .report-section.hidden {
     display: none;
@@ -457,19 +508,14 @@ button#generate-guide-btn:disabled {
 .report-section-title {
     font-size: 24px;
     font-weight: 700;
-    color: #333;
-    margin-bottom: 30px;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
 }
 
-/* ============================================
-   [수정] 리포트 페이지 섹션별 스타일
-============================================ */
-
-/* 1. 디자인 근거 */
+/* 1a. 디자인 근거 */
 .rationale-container {
-    background: #f8f9fa;
+    background: #ffffff;
     border: 1px solid #e0e0e0;
     padding: 25px;
     border-radius: 12px;
@@ -478,7 +524,7 @@ button#generate-guide-btn:disabled {
     font-size: 16px;
     line-height: 1.7;
     margin-bottom: 15px;
-    word-break: break-word; 
+    word-break: break-word;
 }
 .rationale-container p:last-child {
     margin-bottom: 0;
@@ -490,114 +536,265 @@ button#generate-guide-btn:disabled {
     margin-bottom: 5px;
 }
 
-/* 2. 컬러 시스템 (레이아웃 수정) */
-.palette-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+/* 1b. 접근성 분석 (Flexbox 수정 버전) */
+.accessibility-analysis-container {
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
-/* .color-box 원본 스타일(flex:1) 덮어쓰기 */
-.palette-grid .color-box {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column; /* 스와치와 정보가 세로로 쌓이도록 */
-    gap: 10px;
+.analysis-card {
+    background: #ffffff;
     border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 12px;
+    flex-grow: 1;
+    flex-basis: 280px;
+    min-width: 280px;
+    word-break: break-word;
+    box-sizing: border-box;
 }
-/* .color-swatch 원본 스타일(60px 원) 덮어쓰기 */
-.palette-grid .color-swatch {
-    width: 100%;
-    height: 80px;
-    border-radius: 6px; /* 사각형 */
-    border: 1px solid #e0e0e0;
-    cursor: default;
-    /* transition, border 등 원본 스타일 초기화 */
-    transition: none;
-    border-width: 1px;
-}
-.color-info {
-    font-size: 14px;
-}
-.color-info strong {
-    display: block;
+.analysis-card h4 {
+    font-size: 16px;
     font-weight: 600;
-    color: #333;
-    font-size: 13px;
-    word-break: break-all;
+    margin-bottom: 15px;
+    word-break: break-word;
 }
-.color-info span {
-    font-family: 'Courier New', monospace;
-    color: #666;
+.analysis-card p {
+    font-size: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.analysis-card .comment {
     font-size: 13px;
-    word-break: break-all;
+    color: #555;
+    font-style: italic;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px dashed #eee;
+}
+.wcag-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+.status-tag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+}
+.status-tag.pass {
+    background-color: #e6f4ea;
+    color: #34a853;
+}
+.status-tag.fail {
+    background-color: #fce8e6;
+    color: #d93025;
 }
 
-/* 3. 타이포그래피 */
-.typography-rules {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
+/* 공용 미니 색상 견본 */
+.color-swatch-small {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+    flex-shrink: 0;
 }
-.typo-demo h1 {
-    font-weight: 700;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
+
+/* AI 폰트 페어링 */
+.font-pairing-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+.font-card {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+}
+.font-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666;
     margin-bottom: 15px;
 }
-.typo-demo p {
-    font-weight: 400;
+.font-preview {
+    font-size: 32px; /* 기본 크기 */
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    overflow: hidden;
+    word-break: break-all;
+}
+.font-info {
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+.ai-reasoning-box {
+    background: #f0f8ff; /* 연한 파란색 배경 */
+    border: 1px solid #d6eaff;
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 15px;
+    line-height: 1.7;
+}
+.ai-reasoning-box strong {
+    color: #005a9c; /* 진한 파란색 */
+    display: block;
+    margin-bottom: 5px;
 }
 
-/* 4. 컴포넌트 미리보기 (레이아웃 수정) */
+
+/* 리포트 - 색상 시스템 */
+.palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+.color-box {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.color-box .color-swatch-large {
+    height: 100px;
+    border-bottom: 1px solid #eee;
+}
+.color-box .color-info {
+    padding: 15px;
+    background: white;
+}
+.color-box .color-info strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+.color-box .color-info span {
+    font-size: 14px;
+    color: #555;
+    font-family: 'Courier New', monospace;
+}
+
+/* [신규] 리포트 - AI UX 카피라이팅 (네비게이션) */
+.nav-preview-container {
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.nav-preview-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+}
+.nav-preview-list li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+.nav-preview-list li a:hover {
+    color: #6666ff;
+}
+
+
+/* 리포트 - 컴포넌트 미리보기 (기존) */
 .component-showcase {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     align-items: flex-start;
+    background: #f8f9fa;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    border-radius: 12px;
 }
-/* .demo-btn, .demo-card 클래스 사용 (script.js 수정과 일치) */
-.preview-btn { /* .demo-btn -> .preview-btn으로 이름 유지 (script.js 원본) */
-    padding: 12px 24px;
+.preview-btn {
+    padding: 10px 20px;
     border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
     border: none;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
 }
-.preview-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.preview-card { /* .demo-card -> .preview-card로 이름 유지 (script.js 원본) */
+.preview-card {
+    border: 1px solid #eee;
+    border-top-width: 4px;
+    padding: 20px;
+    border-radius: 8px;
     background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-top: 4px solid; /* 색상은 script.js에서 인라인으로 줌 */
+    flex-basis: 300px;
     flex-grow: 1;
-    min-width: 250px;
-    transition: all 0.3s ease;
-}
-.preview-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 .preview-card h3 {
     font-size: 18px;
     font-weight: 600;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 }
 .preview-card p {
-    font-size: 14px;
-    color: #666;
-    line-height: 1.6;
+    font-size: 15px;
+    color: #555;
 }
 
-/* 5. 코드 내보내기 */
+/* [신규] 리포트 - 플랫폼 가이드라인 */
+.guideline-content-report {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+.guideline-content-report p {
+    font-size: 15px;
+    color: #555;
+    line-height: 1.7;
+}
+.guideline-content-report ul {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 14px;
+}
+.guideline-content-report li {
+    margin-bottom: 8px;
+}
+
+
+/* 리포트 - 타이포그래피 (기본) */
+.typography-rules {
+    /* (스타일 필요시 추가) */
+}
+.typo-demo {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+.typo-demo h1 {
+    margin-bottom: 10px;
+}
+.typo-demo .description {
+    font-size: 13px;
+    color: #777;
+}
+
+/* 리포트 - 코드 내보내기 */
 .code-export-tabs {
     display: flex;
     gap: 10px;
@@ -654,160 +851,13 @@ button#generate-guide-btn:disabled {
     background: #4caf50;
 }
 
-/* 6. 접근성 분석 (레이아웃 수정) */
-.accessibility-analysis-container {
-    display: flex;      
-    flex-wrap: wrap;  
-    gap: 20px;         
-}
-.analysis-card {
-    background: #f8f9fa;
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 12px;
-    flex-grow: 1;            
-    flex-basis: 280px;      
-    min-width: 280px;       
-    word-break: break-word; 
-    box-sizing: border-box; 
-}
-.analysis-card h4 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    word-break: break-word;
-}
-.analysis-card p {
-    font-size: 14px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.analysis-card .comment {
-    font-size: 13px;
-    color: #555;
-    font-style: italic;
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px dashed #eee;
-}
-.wcag-status {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
-}
-.status-tag {
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 20px;
-}
-.status-tag.pass {
-    background-color: #e6f4ea;
-    color: #34a853;
-}
-.status-tag.fail {
-    background-color: #fce8e6;
-    color: #d93025;
-}
 
-/* ============================================\n   [추가] 스피너 (로딩) 스타일
-============================================ */
-.spinner {
-    display: inline-block;
-    width: 18px;
-    height: 18px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: #ffffff;
-    animation: spin 1s ease-in-out infinite;
-    -webkit-animation: spin 1s ease-in-out infinite;
-}
-@keyframes spin {
-    to { -webkit-transform: rotate(360deg); }
-}
-@-webkit-keyframes spin {
-    to { -webkit-transform: rotate(360deg); }
-}
-.btn-text.hidden { display: none; }
-.spinner.hidden { display: none; }
-
-/* ============================================\n   [추가] 랩 페이지 AI 추천 (Idea 2)
-============================================ */
-.lab-button {
-    width: 100%;
-    padding: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    height: 48px; 
-}
-.lab-button:hover { background-color: #555; }
-.lab-button:disabled { background-color: #999; cursor: not-allowed; }
-
-.ai-recommendation-box {
-    margin-top: 20px;
-    padding: 16px;
-    background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 14px;
-}
-.ai-recommendation-box p { margin-bottom: 8px; word-break: break-word; }
-.ai-recommendation-box h4 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 6px;
-}
-.ai-recommendation-box .reasoning {
-    font-style: italic;
-    color: #555;
-    margin-top: 10px;
-}
-.ai-recommendation-box.error p { color: #d93025; }
-
-/* ============================================
-   [수정] 공용 미니 색상 견본
-============================================ */
-/* 원본 파일의 .color-swatch (60px 원형) 스타일은 
-   다른 곳에서 사용될 수 있으므로 그대로 두지 않고,
-   사용되는 곳에만 한정적으로 적용하도록 수정합니다.
-*/
-
-/* 랩 페이지, 접근성 카드에서 사용되는 작은 사각형 스와치 */
-.ai-recommendation-box .color-swatch,
-.analysis-card .color-swatch {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    vertical-align: middle;
-    flex-shrink: 0;
-    /* 원본 .color-swatch 스타일 덮어쓰기 */
-    cursor: default;
-    transition: none;
-}
-/* 원본 파일에 있던 .color-swatch 스타일 (추정) */
-/* .main-page .color-selection .color-swatch { ... } */
-/* (현재 HTML 구조에서는 이 클래스가 사용되지 않아 충돌이 없음) */
-
-/* ============================================
-   반응형 디자인 (모바일)
+/* ============================================\n   반응형 디자인 (모바일)
 ============================================ */
 @media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+    }
     .header { 
         flex-direction: column; 
         gap: 20px; 
@@ -817,45 +867,41 @@ button#generate-guide-btn:disabled {
     .header-left { 
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px 20px; 
+        gap: 15px; 
     }
-    
+    .nav-link {
+        font-size: 16px;
+    }
+
     #main-page .main-content { 
         grid-template-columns: 1fr; 
         gap: 30px; 
     }
-    .guideline-section {
-        position: static;
-        height: auto;
-        min-height: 400px;
+    /* 메인 페이지 오른쪽 컬럼(메시지박스) 스타일 */
+    .right-column-section {
+        padding: 20px;
+        justify-content: flex-start;
     }
 
     .lab-container {
+        grid-template-columns: 1fr; 
+        gap: 30px; 
+    }
+    .report-container {
+        padding: 0;
+    }
+    .report-section {
+        padding: 20px;
+    }
+    .font-pairing-container {
         grid-template-columns: 1fr;
     }
-    .lab-controls {
-        border-right: none;
-        border-bottom: 1px solid #e0e0e0;
+    .font-preview {
+        font-size: 28px;
     }
-    .preview-header {
-        flex-wrap: wrap;
-    }
-
-    .report-section {
-        padding: 25px;
-    }
-    
-    .palette-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 15px;
-    }
-    
-    .component-showcase {
+    .nav-preview-list {
         flex-direction: column;
-        align-items: stretch;
-    }
-    
-    .preview-card {
-        min-width: 100%;
+        align-items: center;
+        gap: 15px;
     }
 }

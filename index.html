@@ -6,6 +6,8 @@
     <title>TYPOUNIVERSE</title>
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
     <link rel="stylesheet" href="./styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
     <div class="container">
@@ -39,33 +41,21 @@
                             <button class="platform-btn active" data-platform="Web">Web (Default)</button>
                         </div>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="primary-color-input">3. 주조 색상 (선택)</label>
-                        <div class="color-input-wrapper">
-                            <input type="color" id="primary-color-picker" value="#6666FF">
-                            <input type="text" id="primary-color-hex" value="#6666FF">
-                        </div>
-                    </div>
 
                     <div class="form-group">
-                        <label>4. 디자인 무드 (IRI Adjective)</label>
+                        <label>3. 디자인 무드 (IRI Adjective)</label>
                         <p class="description">원하는 분위기를 선택하세요. IRI 색채 연구소의 감성 어휘를 기반으로 추천합니다.</p>
                         <div class="iri-keyword-selector" id="iri-keyword-selector">
                             </div>
                     </div>
 
-                    <button classt="generate-btn" id="generate-guide-btn">
+                    <button class="generate-btn" id="generate-guide-btn">
                         <span class="btn-text">AI 가이드 생성하기</span>
                         <div class="spinner hidden"></div>
                     </button>
                 </div>
 
-                <div class="guideline-section">
-                    <div class="guideline-content" id="guideline-content">
-                        <h2>플랫폼 가이드라인</h2>
-                        <p id="guideline-text">플랫폼을 선택하면 여기에 핵심 가이드라인이 표시됩니다.</p>
-                    </div>
+                <div class="right-column-section">
                     <div class="ai-message-box" id="ai-message-box">
                         <span class="ai-avatar">🤖</span>
                         <p id="ai-message-text">안녕하세요! UNIVASSIST입니다.<br>왼쪽 항목을 입력하고 생성 버튼을 눌러주세요.</p>
@@ -103,9 +93,13 @@
                         <span class="btn-text">🤖 AI 색상 추천 받기</span>
                         <div class="spinner hidden"></div>
                     </button>
-                    <div class="ai-recommendation-box" id="ai-color-recommendations">
-                        <p>현재 색상 조합에 대한 AI의 분석 및 추천을 받아보세요.</p>
-                    </div>
+
+                    <button class="lab-button" id="load-ai-colors-btn" style="background-color: #555; margin-top: 10px;">
+                        <span class="btn-text">🎨 AI 리포트 색상 불러오기</span>
+                    </button>
+
+                    <div class="ai-recommendation-box" id="ai-lab-message-box" style="display: none;">
+                        </div>
 
                     <hr class="divider">
 
@@ -152,19 +146,42 @@
                             </div>
                     </section>
 
+                    <section class="report-section hidden" id="font-pairing-section">
+                        <h2 class="report-section-title">AI 추천 한글 폰트 페어링</h2>
+                        <div class="font-pairing-container" id="font-pairing-container">
+                            </div>
+                        <div class="ai-reasoning-box" id="font-pairing-reasoning">
+                            </div>
+                    </section>
+                    
                     <section class="report-section hidden" id="color-section">
                         <h2 class="report-section-title">Color System</h2>
                         <div class="palette-grid" id="palette-grid"></div>
                     </section>
 
-                    <section class="report-section hidden" id="typography-section">
-                        <h2 class="report-section-title">Typography</h2>
-                        <div class="typography-rules" id="typography-rules"></div>
+                    <section class="report-section hidden" id="preview-section">
+                        <h2 class="report-section-title">AI 추천 UX 카피라이팅 및 컴포넌트</h2>
+                        
+                        <h3 class="report-subsection-title">네비게이션(GNB) 예시</h3>
+                        <div class="nav-preview-container" id="nav-preview-container">
+                            <ul class="nav-preview-list" id="nav-preview-list">
+                                </ul>
+                        </div>
+                        
+                        <h3 class="report-subsection-title">컴포넌트 예시</h3>
+                        <div class="component-showcase" id="component-showcase">
+                            </div>
+                    </section>
+                    
+                    <section class="report-section hidden" id="platform-guideline-section">
+                        <h2 class="report-section-title">플랫폼 가이드라인</h2>
+                        <div class="guideline-content-report" id="guideline-content-report">
+                            </div>
                     </section>
 
-                    <section class="report-section hidden" id="preview-section">
-                        <h2 class="report-section-title">컴포넌트 미리보기</h2>
-                        <div class="component-showcase" id="component-showcase"></div>
+                    <section class="report-section hidden" id="typography-section">
+                        <h2 class="report-section-title">기본 타이포그래피 규칙</h2>
+                        <div class="typography-rules" id="typography-rules"></div>
                     </section>
 
                     <section class="report-section hidden" id="code-section">
