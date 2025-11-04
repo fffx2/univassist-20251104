@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYPOUNIVERSE</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-left">
+                <a href="#" class="nav-link active" data-target="main-page">컬러시스템 설계</a>
+                <a href="#" class="nav-link" data-target="lab-page">유니버설 컬러시스템 실험실</a>
+                <a href="#" class="nav-link" data-target="report-page">AI 디자인 리포트</a>
+            </div>
+            <div class="header-right">
+                <span class="typouniverse-logo">UNIVASSIST</span>
+            </div>
+        </header>
+
+        <div id="main-page" class="main-page active">
+            <div class="main-content">
+                <div class="input-section">
+                    <h1>AI 디자인 가이드 생성</h1>
+                    <p class="subtitle">서비스의 목적과 분위기에 맞는 최적의 디자인 시스템을 제안합니다.</p>
+                    
+                    <div class="form-group">
+                        <label for="service-purpose">1. 서비스 목적</label>
+                        <input type="text" id="service-purpose" placeholder="예: 10대 대상 소셜 미디어, 전문 금융 리포트">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>2. 타겟 플랫폼</label>
+                        <div class="platform-selector" id="platform-selector">
+                            <button class="platform-btn" data-platform="iOS">iOS</button>
+                            <button class="platform-btn" data-platform="Android">Android</button>
+                            <button class="platform-btn active" data-platform="Web">Web (Default)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="primary-color-input">3. 주조 색상 (선택)</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" id="primary-color-picker" value="#6666FF">
+                            <input type="text" id="primary-color-hex" value="#6666FF">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>4. 디자인 무드 (IRI Adjective)</label>
+                        <p class="description">원하는 분위기를 선택하세요. IRI 색채 연구소의 감성 어휘를 기반으로 추천합니다.</p>
+                        <div class="iri-keyword-selector" id="iri-keyword-selector">
+                            </div>
+                    </div>
+
+                    <button classt="generate-btn" id="generate-guide-btn">
+                        <span class="btn-text">AI 가이드 생성하기</span>
+                        <div class="spinner hidden"></div>
+                    </button>
+                </div>
+
+                <div class="guideline-section">
+                    <div class="guideline-content" id="guideline-content">
+                        <h2>플랫폼 가이드라인</h2>
+                        <p id="guideline-text">플랫폼을 선택하면 여기에 핵심 가이드라인이 표시됩니다.</p>
+                    </div>
+                    <div class="ai-message-box" id="ai-message-box">
+                        <span class="ai-avatar">🤖</span>
+                        <p id="ai-message-text">안녕하세요! UNIVASSIST입니다.<br>왼쪽 항목을 입력하고 생성 버튼을 눌러주세요.</p>
+                        <div class="typing-cursor"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="lab-page" class="lab-page">
+            <div class="lab-header">
+                <h1>유니버설 컬러시스템 실험실</h1>
+                <p>배경색과 텍스트 색상을 조합하며 실시간으로 접근성(WCAG)과 IRI 감성 배색을 확인하세요.</p>
+            </div>
+            
+            <div class="lab-container">
+                <div class="lab-controls">
+                    <h2>실시간 테스트</h2>
+                    <div class="control-group">
+                        <label for="lab-bg-color">배경 색상</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" id="lab-bg-color" value="#F5F5F5">
+                            <input type="text" id="lab-bg-hex" value="#F5F5F5">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label for="lab-text-color">텍스트 색상</label>
+                        <div class="color-input-wrapper">
+                            <input type="color" id="lab-text-color" value="#333333">
+                            <input type="text" id="lab-text-hex" value="#333333">
+                        </div>
+                    </div>
+
+                    <button class="lab-button" id="get-ai-recommendation-btn">
+                        <span class="btn-text">🤖 AI 색상 추천 받기</span>
+                        <div class="spinner hidden"></div>
+                    </button>
+                    <div class="ai-recommendation-box" id="ai-color-recommendations">
+                        <p>현재 색상 조합에 대한 AI의 분석 및 추천을 받아보세요.</p>
+                    </div>
+
+                    <hr class="divider">
+
+                    <h2>IRI 감성 배색</h2>
+                    <div class="iri-analysis" id="iri-analysis">
+                        <p><strong>배경색:</strong> <span id="iri-bg-analysis">-</span></p>
+                        <p><strong>텍스트색:</strong> <span id="iri-text-analysis">-</span></p>
+                        <p><strong>조합:</strong> <span id="iri-combination-analysis">-</span></p>
+                    </div>
+                    <div class="iri-recommendation">
+                        <strong>AI 추천 이유:</strong>
+                        <p id="universal-reasoning">-</p>
+                    </div>
+                </div>
+
+                <div class="lab-preview">
+                    <div class="preview-header">
+                        <span class="wcag-badge" id="wcag-badge-normal">AA Normal: Fail</span>
+                        <span class="wcag-badge" id="wcag-badge-large">AA Large: Pass</span>
+                        <span class="contrast-ratio" id="contrast-ratio">Contrast: 12.58:1</span>
+                    </div>
+                    <div class="preview-content" id="preview-content">
+                        <h1>헤드라인 (Large Text)</h1>
+                        <p>이것은 본문 텍스트(Normal Text)입니다. 배경색과 텍스트 색상 간의 명도 대비는 웹 접근성을 위해 매우 중요합니다. WCAG 2.1 AA 기준은 일반 텍스트의 경우 4.5:1, 큰 텍스트의 경우 3:1 이상의 명도 대비를 권장합니다.</p>
+                        <button class="preview-button" id="preview-button">버튼 예시 (Button)</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="report-page" class="report-page">
+            <div class="report-container">
+                <div class="report-header">
+                    <h1>AI 디자인 리포트</h1>
+                    <p>생성된 디자인 시스템 가이드입니다.</p>
+                </div>
+
+                <div class="report-content" id="report-content">
+                    <p class="placeholder-text" id="report-placeholder">먼저 '컬러시스템 설계' 탭에서 AI 가이드를 생성해주세요.</p>
+
+                    <section class="report-section hidden" id="rationale-section">
+                        <h2 class="report-section-title">AI 디자인 근거 (Rationale)</h2>
+                        <div class="rationale-container" id="design-rationale">
+                            </div>
+                    </section>
+
+                    <section class="report-section hidden" id="color-section">
+                        <h2 class="report-section-title">Color System</h2>
+                        <div class="palette-grid" id="palette-grid"></div>
+                    </section>
+
+                    <section class="report-section hidden" id="typography-section">
+                        <h2 class="report-section-title">Typography</h2>
+                        <div class="typography-rules" id="typography-rules"></div>
+                    </section>
+
+                    <section class="report-section hidden" id="preview-section">
+                        <h2 class="report-section-title">컴포넌트 미리보기</h2>
+                        <div class="component-showcase" id="component-showcase"></div>
+                    </section>
+
+                    <section class="report-section hidden" id="code-section">
+                        <h2 class="report-section-title">디자인 시스템 내보내기</h2>
+                        <div class="code-export-tabs">
+                            <button class="export-tab active" data-tab="css">CSS Variables</button>
+                            <button class="export-tab" data-tab="tailwind">Tailwind Config</button>
+                            <button class="export-tab" data-tab="scss">SCSS Variables</button>
+                        </div>
+                        <div class="code-container">
+                            <pre id="code-output">/* Your design system code will appear here */</pre>
+                            <button class="copy-code-btn" id="copy-code-btn">📋 Copy to Clipboard</button>
+                        </div>
+                    </section>
+
+                    <section class="report-section hidden" id="accessibility-section">
+                        <h2 class="report-section-title">AI 웹 접근성 분석 (WCAG 2.1)</h2>
+                        <div class="accessibility-analysis-container" id="accessibility-analysis">
+                            </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
