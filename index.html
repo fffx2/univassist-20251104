@@ -139,13 +139,16 @@
 
                 </div>
 
-                <div class="preview-pane">
+                <div class="comparison-pane">
+                    
                     <div class="lab-preview" id="lab-preview-normal">
                         <div class="preview-header">
-                            <strong>일반 시야 (Normal Vision)</strong>
-                            <span class="wcag-badge" id="wcag-badge-normal">AA Normal: Fail</span>
-                            <span class="wcag-badge" id="wcag-badge-large">AA Large: Pass</span>
-                            <span class="contrast-ratio" id="contrast-ratio">Contrast: 12.58:1</span>
+                            <strong>일반인 시야 (Normal Vision)</strong>
+                            <div class="wcag-info">
+                                <span class="wcag-badge" id="wcag-badge-normal">AA Normal: Fail</span>
+                                <span class="wcag-badge" id="wcag-badge-large">AA Large: Pass</span>
+                                <span class="contrast-ratio" id="contrast-ratio">Contrast: 12.58:1</span>
+                            </div>
                         </div>
                         <div class="preview-content" id="preview-content-normal">
                             <h1>헤드라인 (Large Text)</h1>
@@ -154,48 +157,18 @@
                         </div>
                     </div>
 
-                    <div class="simulator-grid">
-                        <div class="simulator-card">
-                            <h4>제1색각 (적색맹)</h4>
-                            <div class="lab-preview sim">
-                                <div class="preview-content" id="preview-content-protanopia">
-                                    <h1>헤드라인</h1>
-                                    <p>본문 텍스트입니다.</p>
-                                    <button class="preview-button" id="preview-button-protanopia">주조색 버튼</button>
-                                </div>
-                            </div>
+                    <div class="lab-preview cvd-sim">
+                        <div class="preview-header">
+                            <strong>색각 이상자 시야 (CVD)</strong>
                         </div>
-                        <div class="simulator-card">
-                            <h4>제2색각 (녹색맹)</h4>
-                            <div class="lab-preview sim">
-                                <div class="preview-content" id="preview-content-deuteranopia">
-                                    <h1>헤드라인</h1>
-                                    <p>본문 텍스트입니다.</p>
-                                    <button class="preview-button" id="preview-button-deuteranopia">주조색 버튼</button>
-                                </div>
-                            </div>
+                        <div class="preview-content" id="preview-content-cvd">
+                            <h1>헤드라인 (Large Text)</h1>
+                            <p>이것은 본문 텍스트(Normal Text)입니다. 배경색과 텍스트 색상 간의 명도 대비를 확인합니다.</p>
+                            <button class="preview-button" id="preview-button-cvd">주조색 버튼</button>
                         </div>
-                        <div class="simulator-card">
-                            <h4>제3색각 (청색맹)</h4>
-                            <div class="lab-preview sim">
-                                <div class="preview-content" id="preview-content-tritanopia">
-                                    <h1>헤드라인</h1>
-                                    <p>본문 텍스트입니다.</p>
-                                    <button class="preview-button" id="preview-button-tritanopia">주조색 버튼</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="simulator-card">
-                            <h4>전색맹 (Achromatopsia)</h4>
-                            <div class="lab-preview sim">
-                                <div class="preview-content" id="preview-content-achromatopsia">
-                                    <h1>헤드라인</h1>
-                                    <p>본문 텍스트입니다.</p>
-                                    <button class="preview-button" id="preview-button-achromatopsia">주조색 버튼</button>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="description" style="padding: 10px 15px; font-size: 12px; text-align: center;">* 가장 일반적인 제2색각(녹색맹) 시뮬레이션입니다.</p>
                     </div>
+
                 </div>
             </div>
         </div>

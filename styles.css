@@ -292,10 +292,10 @@ body {
     color: #666;
 }
 
-/* [수정] 랩 컨테이너 (1:2 비율) */
+/* [수정] 랩 컨테이너 (컨트롤 | 프리뷰) */
 .lab-container {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* 1:2 비율로 변경 */
+    grid-template-columns: 350px 1fr; /* 컨트롤 패널 350px 고정 */
     gap: 40px;
     background: white;
     border: 1px solid #e0e0e0;
@@ -345,11 +345,12 @@ body {
     margin: 30px 0;
 }
 
-/* [신규] 우측 프리뷰 패널 */
-.preview-pane {
-    display: flex;
-    flex-direction: column;
+/* [신규] 우측 비교 패널 */
+.comparison-pane {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+    min-height: 400px; /* 최소 높이 보장 */
 }
 
 .lab-preview {
@@ -357,19 +358,28 @@ body {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .preview-header {
     padding: 15px 20px;
     background: #eee;
     display: flex;
-    gap: 15px;
+    flex-wrap: wrap;
     align-items: center;
-    flex-wrap: wrap; /* 반응형 대비 */
+    gap: 10px;
 }
 .preview-header strong {
     font-size: 14px;
     font-weight: 600;
+    margin-right: auto; /* 제목을 왼쪽으로 */
 }
+.preview-header .wcag-info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
 .wcag-badge {
     font-size: 12px;
     font-weight: 600;
@@ -388,11 +398,11 @@ body {
     font-size: 13px;
     font-weight: 500;
     color: #333;
-    margin-left: auto; /* 오른쪽 정렬 */
 }
 .preview-content {
     padding: 30px;
     transition: all 0.2s; /* 색상 변경 부드럽게 */
+    flex-grow: 1; /* 남은 공간 채우기 */
 }
 .preview-content h1 {
     font-size: 24px;
@@ -414,37 +424,16 @@ body {
     transition: all 0.2s;
 }
 
-/* [신규] CVD 시뮬레이터 그리드 */
-.simulator-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+/* [신규] CVD 시뮬레이션 카드 */
+.lab-preview.cvd-sim {
+    background: #f4f4f4;
+    border-color: #ddd;
 }
-.simulator-card {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 15px;
+.lab-preview.cvd-sim .preview-header {
+    background: #ddd;
 }
-.simulator-card h4 {
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 10px;
-}
-.lab-preview.sim .preview-content {
-    padding: 15px; /* 시뮬레이터 카드는 더 작게 */
-    text-align: center;
-}
-.lab-preview.sim h1 {
-    font-size: 18px;
-}
-.lab-preview.sim p {
-    font-size: 14px;
-}
-.lab-preview.sim .preview-button {
-    font-size: 12px;
-    padding: 8px 12px;
+.lab-preview.cvd-sim .preview-header .wcag-info {
+    display: none; /* CVD 시뮬레이션에서는 WCAG 숨김 */
 }
 
 
@@ -939,13 +928,11 @@ body {
         grid-template-columns: 1fr; 
         gap: 30px; 
     }
-    .preview-pane {
-        /* 모바일에서는 1열 그리드로 */
-        grid-template-columns: 1fr;
+    /* [수정] 랩 비교 패널 모바일 */
+    .comparison-pane { 
+        grid-template-columns: 1fr; 
     }
-    .simulator-grid {
-        grid-template-columns: 1fr;
-    }
+    
     .font-pairing-container {
         grid-template-columns: 1fr;
     }

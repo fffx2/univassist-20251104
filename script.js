@@ -50,20 +50,15 @@ function setupNavigation() {
             e.preventDefault();
             const targetId = link.getAttribute('data-target');
             
-            // 모든 탭 비활성화
             navLinks.forEach(nav => nav.classList.remove('active'));
             pages.forEach(page => page.classList.remove('active'));
             
-            // 클릭한 탭 활성화
             link.classList.add('active');
             document.getElementById(targetId).classList.add('active');
 
-            // 탭 이동 시 로직
             if (targetId === 'lab-page') {
-                // (Tab 2)로 이동 시, AI 초안이 있으면 자동으로 로드
                 loadAiDraftToLab(); 
             } else if (targetId === 'report-page') {
-                // (Tab 3)로 이동 시, 확정된 리포트 데이터가 있으면 표시
                 displayReportData(reportData);
             }
         });
@@ -79,7 +74,6 @@ function navigateToTab(targetId) {
 // ============================================\n// 2. 메인 페이지 (AI 초안 생성)
 // ============================================\n
 function initializeMainPage() {
-    // 플랫폼 선택
     const platformSelector = document.getElementById('platform-selector');
     platformSelector.addEventListener('click', (e) => {
         if (e.target.classList.contains('platform-btn')) {
@@ -89,15 +83,12 @@ function initializeMainPage() {
         }
     });
 
-    // 서비스 목적
     document.getElementById('service-purpose').addEventListener('input', (e) => {
         appState.service = e.target.value;
     });
 
-    // 생성 버튼
     document.getElementById('generate-guide-btn').addEventListener('click', generateDesignGuide);
 
-    // "실험실로 이동" 버튼
     document.getElementById('go-to-lab-btn').addEventListener('click', () => {
         navigateToTab('lab-page');
     });
@@ -107,14 +98,11 @@ function initializeMainPage() {
 function renderIRIKeywords() {
     const container = document.getElementById('iri-keyword-selector');
     if (!knowledgeBase.iri_colors || !container) return;
-
     let keywords = [];
     Object.values(knowledgeBase.iri_colors).forEach(group => {
         keywords = keywords.concat(group.keywords);
     });
-    
     const uniqueKeywords = [...new Set(keywords)].sort();
-    
     container.innerHTML = '';
     uniqueKeywords.forEach(keyword => {
         const chip = document.createElement('button');
@@ -136,11 +124,7 @@ function updateAIMessage(message, isError = false) {
     const boxEl = document.getElementById('ai-message-box');
     const cursorEl = boxEl.querySelector('.typing-cursor');
     
-    if (isError) {
-        boxEl.classList.add('error');
-    } else {
-        boxEl.classList.remove('error');
-    }
+    boxEl.classList.toggle('error', isError);
 
     clearTimeout(typingTimeout);
     messageEl.innerHTML = '';
@@ -159,7 +143,7 @@ function updateAIMessage(message, isError = false) {
     typeWriter();
 }
 
-// [수정] AI 가이드 '초안' 생성 함수
+// AI 가이드 '초안' 생성 함수
 async function generateDesignGuide() {
     if (!appState.service || !appState.keyword) {
         updateAIMessage(" '서비스 목적'과 '디자인 무드'를 모두 입력(선택)해주세요!", true);
@@ -174,7 +158,7 @@ async function generateDesignGuide() {
     btn.disabled = true;
     btnText.classList.add('hidden');
     spinner.classList.remove('hidden');
-    draftPreview.classList.add('hidden'); // 미리보기 숨김
+    draftPreview.classList.add('hidden'); 
     updateAIMessage("AI가 디자인 시스템 초안을 생성 중입니다. 잠시만 기다려주세요...");
 
     try {
@@ -197,15 +181,12 @@ async function generateDesignGuide() {
 
         const result = await response.json();
         
-        // [중요] AI 초안을 appState에 저장
         appState.generatedResult = result; 
-        reportData = null; // 이전 리포트 데이터 삭제
+        reportData = null; 
 
-        // (Tab 1)의 AI 메시지 박스 및 초안 미리보기 업데이트
         updateAIMessage("AI 초안 생성이 완료되었습니다! 2단계 탭에서 색상을 검증하세요.", false);
         showAiDraftPreview(result.colorSystem);
         
-        // (Tab 2)로 자동 이동
         setTimeout(() => {
             navigateToTab('lab-page');
         }, 1000);
@@ -265,15 +246,9 @@ function initializeLabPage() {
     labElements.wcagNormalEl = document.getElementById('wcag-badge-normal');
     labElements.wcagLargeEl = document.getElementById('wcag-badge-large');
     
-    // CVD 시뮬레이션 프리뷰 요소
-    labElements.previewContentProtanopia = document.getElementById('preview-content-protanopia');
-    labElements.previewButtonProtanopia = document.getElementById('preview-button-protanopia');
-    labElements.previewContentDeuteranopia = document.getElementById('preview-content-deuteranopia');
-    labElements.previewButtonDeuteranopia = document.getElementById('preview-button-deuteranopia');
-    labElements.previewContentTritanopia = document.getElementById('preview-content-tritanopia');
-    labElements.previewButtonTritanopia = document.getElementById('preview-button-tritanopia');
-    labElements.previewContentAchromatopsia = document.getElementById('preview-content-achromatopsia');
-    labElements.previewButtonAchromatopsia = document.getElementById('preview-button-achromatopsia');
+    // [수정] CVD 시뮬레이션 프리뷰 (1개)
+    labElements.previewContentCvd = document.getElementById('preview-content-cvd');
+    labElements.previewButtonCvd = document.getElementById('preview-button-cvd');
 
     // 랩 컨트롤 이벤트 리스너
     const setupColorInput = (picker, hexInput, stateKey) => {
@@ -302,10 +277,9 @@ function initializeLabPage() {
     document.getElementById('confirm-and-generate-report-btn').addEventListener('click', confirmAndGenerateReport);
 }
 
-// [신규] (Tab 2) AI 초안 색상을 랩으로 로드
+// (Tab 2) AI 초안 색상을 랩으로 로드
 function loadAiDraftToLab() {
     if (!appState.generatedResult) {
-        // AI 초안이 없으면 로드하지 않음 (예: 사용자가 2번 탭을 그냥 클릭)
         return; 
     }
 
@@ -338,7 +312,7 @@ function loadAiDraftToLab() {
     labElements.aiLabMessageBox.style.display = 'block';
 }
 
-// [신규] '리포트 확정' 로직
+// '리포트 확정' 로직
 function confirmAndGenerateReport() {
     if (!appState.generatedResult) {
         labElements.aiLabMessageBox.innerHTML = `<p>오류: 먼저 1단계에서 AI 초안을 생성해야 합니다.</p>`;
@@ -350,14 +324,11 @@ function confirmAndGenerateReport() {
     // 1. AI 초안(generatedResult)을 reportData로 깊은 복사
     reportData = JSON.parse(JSON.stringify(appState.generatedResult));
 
-    // 2. [중요] 랩에서 검증/수정한 색상으로 reportData를 덮어씀
+    // 2. 랩에서 검증/수정한 색상으로 reportData를 덮어씀
     reportData.colorSystem.primary.main = appState.labColors.primaryColor;
     reportData.colorSystem.neutral.lightGray = appState.labColors.bgColor;
     reportData.colorSystem.neutral.darkGray = appState.labColors.textColor;
     
-    // (참고: AI가 생성한 light/dark/secondary 등은 초안 값을 그대로 사용합니다.)
-    // (AI가 초안에 생성한 '접근성 분석'은 수정된 색상과 다를 수 있음을 명시합니다.)
-
     // 3. (Tab 3)로 이동
     navigateToTab('report-page');
 }
@@ -418,7 +389,7 @@ async function getAiLabRecommendation() {
 }
 
 
-// [수정] 랩 프리뷰 + CVD 시뮬레이션 업데이트
+// [수정] 랩 프리뷰 + 1개 CVD 시뮬레이션 업데이트
 function updateLabPreview() {
     const { bgColor, textColor, primaryColor } = appState.labColors;
 
@@ -426,7 +397,6 @@ function updateLabPreview() {
     labElements.previewContentNormal.style.backgroundColor = bgColor;
     labElements.previewContentNormal.style.color = textColor;
     labElements.previewButtonNormal.style.backgroundColor = primaryColor;
-    // 주조색 버튼의 텍스트 색상 (흰/검) 자동 결정
     const primaryBtnTextColor = getContrastRatio(primaryColor, '#FFFFFF') > 3 ? '#FFFFFF' : '#000000';
     labElements.previewButtonNormal.style.color = primaryBtnTextColor;
     
@@ -436,11 +406,8 @@ function updateLabPreview() {
     updateWCAGBadge(labElements.wcagNormalEl, 'AA Normal', contrast, 4.5);
     updateWCAGBadge(labElements.wcagLargeEl, 'AA Large', contrast, 3.0);
 
-    // 2. CVD 시뮬레이션
-    updateCvdSimulation('protanopia', labElements.previewContentProtanopia, labElements.previewButtonProtanopia);
-    updateCvdSimulation('deuteranopia', labElements.previewContentDeuteranopia, labElements.previewButtonDeuteranopia);
-    updateCvdSimulation('tritanopia', labElements.previewContentTritanopia, labElements.previewButtonTritanopia);
-    updateCvdSimulation('achromatopsia', labElements.previewContentAchromatopsia, labElements.previewButtonAchromatopsia);
+    // 2. [수정] CVD 시뮬레이션 (제2색각-Deuteranopia 하나만)
+    updateCvdSimulation('deuteranopia', labElements.previewContentCvd, labElements.previewButtonCvd);
 }
 
 // CVD 시뮬레이션 헬퍼
@@ -524,7 +491,7 @@ function loadGoogleFont(fontName, weight) {
 }
 
 
-// [수정] 리포트 데이터 표시 (확정된 reportData 사용)
+// 리포트 데이터 표시 (확정된 reportData 사용)
 function displayReportData(data) {
     const placeholder = document.getElementById('report-placeholder');
     const sections = document.querySelectorAll('.report-section');
@@ -813,7 +780,7 @@ const CVD_SIMULATION_MATRIX = {
     ]
 };
 
-// HEX -> RGB (0-255) 변환 (위의 hexToRgb와 동일하나, null 체크 강화)
+// HEX -> RGB (0-255) 변환
 function hexToRgbValues(hex) {
     const result = hexToRgb(hex);
     if (!result) return [0, 0, 0];
@@ -823,8 +790,8 @@ function hexToRgbValues(hex) {
 // RGB (0-255) -> HEX 변환
 function rgbToHex(r, g, b) {
     const toHex = (c) => {
-        c = Math.round(c); // 반올림
-        c = Math.max(0, Math.min(255, c)); // 0-255 범위 보장
+        c = Math.round(c); 
+        c = Math.max(0, Math.min(255, c)); 
         const hex = c.toString(16);
         return hex.length === 1 ? "0" + hex : hex;
     };
@@ -832,35 +799,33 @@ function rgbToHex(r, g, b) {
 }
 
 // CVD 시뮬레이션 함수 (sRGB -> LMS -> simLMS -> sRGB)
-// (감마 보정 포함)
 function cvdSimulate(hex, type) {
     const matrix = CVD_SIMULATION_MATRIX[type];
     if (!matrix) return hex;
 
-    // 1. HEX -> [0, 255]
     const [r, g, b] = hexToRgbValues(hex);
 
-    // 2. sRGB (0-255) -> Linear RGB (0-1) (감마 디코딩)
+    // 1. sRGB (0-255) -> Linear RGB (0-1) (감마 디코딩)
     const r_lin = Math.pow(r / 255, 2.2);
     const g_lin = Math.pow(g / 255, 2.2);
     const b_lin = Math.pow(b / 255, 2.2);
 
-    // 3. Linear RGB -> LMS (CAT02 매트릭스)
+    // 2. Linear RGB -> LMS (CAT02 매트릭스)
     const l = (r_lin * 0.7328) + (g_lin * 0.4296) + (b_lin * -0.1624);
     const m = (r_lin * 0.7036) + (g_lin * 1.6975) + (b_lin * 0.0061);
     const s = (r_lin * 0.0030) + (g_lin * 0.0136) + (b_lin * 0.9834);
 
-    // 4. CVD 매트릭스 적용
+    // 3. CVD 매트릭스 적용
     const l_sim = (l * matrix[0]) + (m * matrix[1]) + (s * matrix[2]);
     const m_sim = (l * matrix[3]) + (m * matrix[4]) + (s * matrix[5]);
     const s_sim = (l * matrix[6]) + (m * matrix[7]) + (s * matrix[8]);
 
-    // 5. LMS -> Linear RGB (CAT02 역매트릭스)
+    // 4. LMS -> Linear RGB (CAT02 역매트릭스)
     const r_sim_lin = (l_sim * 1.0961)  + (m_sim * -0.2789) + (s_sim * 0.1828);
     const g_sim_lin = (l_sim * -0.4543) + (m_sim * 0.4720)  + (s_sim * -0.0177);
     const b_sim_lin = (l_sim * -0.0096) + (m_sim * -0.0057) + (s_sim * 1.0153);
 
-    // 6. Linear RGB (0-1) -> sRGB (0-255) (감마 인코딩)
+    // 5. Linear RGB (0-1) -> sRGB (0-255) (감마 인코딩)
     const r_sim = Math.pow(Math.max(0, r_sim_lin), 1 / 2.2) * 255;
     const g_sim = Math.pow(Math.max(0, g_sim_lin), 1 / 2.2) * 255;
     const b_sim = Math.pow(Math.max(0, b_sim_lin), 1 / 2.2) * 255;
